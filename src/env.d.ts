@@ -5,3 +5,14 @@ declare namespace NodeJS {
     VUE_ROUTER_BASE: string | undefined;
   }
 }
+export interface ElectronAPI {
+  fetchPosts: <T extends IArguments>(args: T) => Promise<unknown>;
+  print: (content: string) => Promise<void>;
+  checkHotUpdate: () => Promise<void>;
+}
+
+declare global {
+  interface Window {
+    electronAPI: ElectronAPI;
+  }
+}
