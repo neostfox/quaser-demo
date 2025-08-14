@@ -18,10 +18,8 @@ async function loadLocalPath() {
   if (fs.existsSync(indexPath)) {
     await mainWindow!.loadFile(indexPath);
   } else {
-    await mainWindow!.loadFile(path.join(__dirname, 'renderer/index.html'));
+    await mainWindow!.loadFile('index.html');
   }
-
-  await mainWindow!.loadFile('index.html');
 }
 
 async function createWindow() {
