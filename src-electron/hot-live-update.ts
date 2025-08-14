@@ -4,14 +4,15 @@ import path from 'path';
 import axios from 'axios';
 import AdmZip from 'adm-zip';
 import os from 'os';
-const serverURL = 'https://cdn.example.com/myapp/';
 export const localPath = path.join(app.getPath('userData'), 'renderer');
 const tmpPath = path.join(os.tmpdir(), 'myapp_update.zip');
 
 export async function checkHotUpdate() {
   try {
     // 1️⃣ 获取远程版本信息
-    const { data } = await axios.get(serverURL + 'version.json');
+    const { data } = await axios.get(
+      'https://raw.githubusercontent.com/neostfox/quaser-demo/refs/heads/master/version.json',
+    );
     const remoteVersion = data.version;
 
     // 2️⃣ 获取本地版本
@@ -25,7 +26,10 @@ export async function checkHotUpdate() {
       console.log('发现新版本资源，开始下载 zip 文件...');
 
       // 3️⃣ 下载 zip 文件
-      const zipRes = await axios.get(serverURL + 'update.zip', { responseType: 'arraybuffer' });
+      const zipRes = await axios.get(
+        `https://raw.githubusercontent.com/neostfox/quaser-demo/refs/heads/master/update.zip`,
+        { responseType: 'arraybuffer' },
+      );
       fs.writeFileSync(tmpPath, Buffer.from(zipRes.data));
 
       // 4️⃣ 解压到临时目录
